@@ -10,7 +10,7 @@ def handle_query_api_error(logger, e):
     sys.exit(2)
 
 def handle_parse_data_error(logger, e):
-    logger.debug('Error running parse_data'.format(e))
+    logger.debug('Error running parse_data: {0}'.format(e))
     logging.info('There was an error parsing the returned data')
     logger.debug('Exiting due to error with parse_data')
     sys.exit(2)
@@ -134,77 +134,77 @@ def main():
         logging.info('Unable to read apikey')
         logger.debug('Exiting due to error reading apikey.txt')
         sys.exit(2)
-    if '\n' in apikey:
-        apikey.replace('\n', '')
-        logger.debug('apikey had \\n removed')
-    elif '\r\n' in apikey:
+    if '\r\n' in apikey:
         apikey.replace('\r\n', '')
         logger.debug('apikey had \\r\\n removed')
+    elif '\n' in apikey:
+        apikey.replace('\n', '')
+        logger.debug('apikey had \\n removed')
 
     # Run program
     if command == 'a':
         logger.debug('{0} was the chosen command'.format(command))
         try:
-            data = query_api(apikey, command, argument)
+            data = query_api(logger, apikey, command, argument)
         except Exception as e:
             handle_query_api_error(logger, e)
         try:
-            parse_data(command, data)
+            parse_data(logger, command, data)
         except Exception as e:
             handle_parse_data_error(logger, e)
         logger.debug('Finished running {0} command'.format(command))
     elif command == 'ptr':
         logger.debug('{0} was the chosen command'.format(command))
         try:
-            data = query_api(apikey, command, argument)
+            data = query_api(logger, apikey, command, argument)
         except Exception as e:
             handle_query_api_error(logger, e)
         try:
-            parse_data(command, data)
+            parse_data(logger, command, data)
         except Exception as e:
             handle_parse_data_error(logger, e)
         logger.debug('Finished running {0} command'.format(command))
     elif command == 'tcp':
         logger.debug('{0} was the chosen command'.format(command))
         try:
-            data = query_api(apikey, command, argument, option=option)
+            data = query_api(logger, apikey, command, argument, option=option)
         except Exception as e:
             handle_query_api_error(logger, e)
         try:
-            parse_data(command, data)
+            parse_data(logger, command, data)
         except Exception as e:
             handle_parse_data_error(logger, e)
         logger.debug('Finished running {0} command'.format(command))
     elif command == 'blacklist':
         logger.debug('{0} was the chosen command'.format(command))
         try:
-            data = query_api(apikey, command, argument)
+            data = query_api(logger, apikey, command, argument)
         except Exception as e:
             handle_query_api_error(logger, e)
         try:
-            parse_data(command, data)
+            parse_data(logger, command, data)
         except Exception as e:
             handle_parse_data_error(logger, e)
         logger.debug('Finished running {0} command'.format(command))
     elif command == 'ping':
         logger.debug('{0} was the chosen command'.format(command))
         try:
-            data = query_api(apikey, command, argument)
+            data = query_api(logger, apikey, command, argument)
         except Exception as e:
             handle_query_api_error(logger, e)
         try:
-            parse_data(command, data)
+            parse_data(logger, command, data)
         except Exception as e:
             handle_parse_data_error(logger, e)
         logger.debug('Finished running {0} command'.format(command))
     elif command == 'scan':
         logger.debug('{0} was the chosen command'.format(command))
         try:
-            data = query_api(apikey, command, argument)
+            data = query_api(logger, apikey, command, argument)
         except Exception as e:
             handle_query_api_error(logger, e)
         try:
-            parse_data(command, data)
+            parse_data(logger, command, data)
         except Exception as e:
             handle_parse_data_error(logger, e)
         logger.debug('Finished running {0} command'.format(command))
