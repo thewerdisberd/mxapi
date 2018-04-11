@@ -2,6 +2,7 @@ import logging
 import getopt
 import sys
 import requests
+import json
 
 def handle_query_api_error(logger, e):
     logger.debug('Error running query_api {0}'.format(e))
@@ -37,10 +38,11 @@ def query_api(logger, apikey, command, argument, option=None):
 
 def parse_data(logger, command, data):
     logger.debug('Entering parse_data')
+    json_data = json.loads(data)
     if command == 'a' or command == 'ptr':
         logger.debug('Parsing {0} data'.format(command))
         for x in range(len(json_data['Information'])):
-            print('Record {0}'.format(x + 1))
+            print('Record: {0}'.format(x + 1))
             print('Domain Name:  {0}'.format(json_data['Information'][x]['Domain Name']))
             print('IP Address:   {0}'.format(json_data['Information'][x]['IP Address']))
             print('Record Type:  {0}'.format(json_data['Information'][x]['Type']))
@@ -53,7 +55,7 @@ def parse_data(logger, command, data):
             print()
     if command == 'blacklist':
         logger.debug('Parsing {0} data'.format(command))
-        print('{0} is on {1} blacklists:'.format(json_data['CommandArgument'], len(json_data['Failed'])))
+        print('{0} is on {1} blacklists'.format(json_data['CommandArgument'], len(json_data['Failed'])))
         for x in range(len(json_data['Failed'])):
             print('    {0}'.format(json_data['Failed'][x]['Name']))
     if command == 'ping':
@@ -114,7 +116,7 @@ def main():
             option = arg
             logger.debug('Set option to {0}'.format(arg))
         elif (opt == '--help') or (opt == '-h'):
-            print('Usage:\n\tmxapi.py <command> -q <query> -o <option>')
+            print('Usage:\n\tmxapi.py -c <command> -q <query> [-o <option>]')
             logger.debug('Only help was run')
             logger.debug('Exiting due to help being run')
             sys.exit(2)
