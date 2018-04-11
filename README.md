@@ -5,9 +5,9 @@ Tool to interface with some of the MXToolbox API
 `mxapi.py -c <command> -q <query> [-o <option>]`
 
 ### Supported Commands
-`a
-ptr
-blacklist
-tcp
-ping
-scan`
+`a`
+`ptr`
+`blacklist`
+`tcp`
+`ping`
+`scan`
